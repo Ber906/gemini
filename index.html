@@ -708,7 +708,7 @@
     </div>
 
     <script>
-        const API = 'http://localhost:3000/api';
+        const API = '/api';
         const SESSION = 'omega-' + Math.random().toString(36).substr(2, 9);
         let files = [];
 
@@ -786,9 +786,8 @@
                 
                 typing.remove();
                 
-                if (!res.ok) throw new Error('Server error');
-                
                 const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Server error');
                 
                 if (data.success) {
                     addMessage(data.response, false);
@@ -798,7 +797,7 @@
                 }
             } catch (err) {
                 typing.remove();
-                addMessage(`❌ Error: ${err.message}. Make sure server is running on port 3000.`, false);
+                addMessage(`❌ Error: ${err.message}`, false);
             }
         }
 
